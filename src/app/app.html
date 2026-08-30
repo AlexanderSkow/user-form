@@ -1,1 +1,24 @@
-<h1>Hello!</h1>
+@if (username() === '') {
+  <h1>Enter Name Below!</h1>
+}
+
+@else {
+  <h1>Hello, {{ username() }}!</h1>
+}
+
+<label>Enter First Name:</label>
+<input type="text" [formControl]="firstNameControl">
+
+<p>{{ firstNameControl.value }}</p>
+
+<label>Enter Last Name:</label>
+<input type="text" [formControl]="lastNameControl">
+
+<p>{{ lastNameControl.value }}</p>
+
+<label>Enter Email:</label>
+<input type="text" [formControl]="emailControl">
+
+<p>{{ emailControl.value }}</p>
+
+<button type="submit">Submit</button>

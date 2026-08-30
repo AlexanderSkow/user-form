@@ -1,12 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+
 export class App {
-  protected readonly title = signal('user');
+  protected firstNameControl = new FormControl('');
+  protected lastNameControl = new FormControl('');
+  protected emailControl = new FormControl('');
+
+  protected username = signal('');
 }
