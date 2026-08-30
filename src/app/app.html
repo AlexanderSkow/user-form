@@ -6,19 +6,23 @@
   <h1>Hello, {{ username() }}!</h1>
 }
 
+<form [formGroup]="userForm">
 <label>Enter First Name:</label>
-<input type="text" [formControl]="firstNameControl">
+<input type="text" formControlName="firstName">
 
-<p>{{ firstNameControl.value }}</p>
+<p>{{ userForm.get('firstName')?.value }}</p>
 
 <label>Enter Last Name:</label>
-<input type="text" [formControl]="lastNameControl">
+<input type="text" formControlName="lastName">
 
-<p>{{ lastNameControl.value }}</p>
+<p>{{ userForm.get('lastName')?.value }}</p>
 
 <label>Enter Email:</label>
-<input type="text" [formControl]="emailControl">
+<input type="text" formControlName="email">
 
-<p>{{ emailControl.value }}</p>
+<p>{{ userForm.get('email')?.value }}</p>
 
-<button type="submit">Submit</button>
+<button type="button" (click)="updateName()">Update Name!</button>
+<button type="button" (click)="resetUserForm()">Reset Name!</button>
+
+</form>
