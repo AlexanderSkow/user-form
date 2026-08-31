@@ -58,4 +58,14 @@ export class App {
 
     console.log(this.users());
   }
+
+  public dumpUsers() {
+    if (this.noUsers()) {
+      alert('There currently are no users...');
+      return;
+    }
+
+    const areDeleted = confirm('Are you sure you want to do this? This will delete all your users.');
+    if (areDeleted) this.users.set([]);
+  }
 }
