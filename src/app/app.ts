@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, DestroyRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Observable, fromEvent, scan } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface UserDTO {
   firstName: string | null | undefined;
@@ -15,6 +17,8 @@ interface UserDTO {
 })
 
 export class App {
+  private destroyRef = inject(DestroyRef);
+
   protected userForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
@@ -23,6 +27,13 @@ export class App {
 
   protected username = signal<string>('');
   protected users = signal<UserDTO[]>([]);
+
+  constructor() {
+    fromEvent(document, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(scan(count => count + 1, 0))
+      .subscribe(count => console.log(`Clicked ${count} time${count !== 1 ? 's' : ''}!`)); 
+  }
 
   public noUsers() {
     return this.users().length === 0;
