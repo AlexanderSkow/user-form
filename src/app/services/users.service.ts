@@ -15,4 +15,8 @@ export class UserService {
   getUsers(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(`${url}/users`);
   }
+
+  addUser(newUser: UserDTO): Observable<{ message: string, data: UserDTO }> {
+    return this.http.post<{ message: string; data: UserDTO }>(`${url}/users`, newUser);
+  }
 }

@@ -36,8 +36,6 @@ export class App implements OnInit {
         map(x => x * 3),
         delay(2000))
         .subscribe(x => console.log('Current Value: ', x));
-    
-    this.getUsers();
   }
 
   ngOnInit(): void {
@@ -47,6 +45,17 @@ export class App implements OnInit {
   public getUsers() {
     this.userService.getUsers().subscribe(users => {
       this.users.set(users);
+    });
+  }
+
+  public addUser(newUser: UserDTO) {
+    this.userService.addUser(newUser).subscribe(response => {
+      const { message, data } = response;
+
+      console.log(message);
+      console.log(data);
+
+      this.users.update(users => [...users, data]);
     });
   }
 
@@ -78,7 +87,7 @@ export class App implements OnInit {
     };
     
     console.log(newUser);
-    this.users.update(users => [...users, newUser]);
+    this.addUser(newUser);
     this.username.set('');
     this.userForm.reset();
 
