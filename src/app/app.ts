@@ -1,6 +1,6 @@
 import { Component, signal, DestroyRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Observable, fromEvent, scan } from 'rxjs';
+import { Observable, fromEvent, scan, of, map, delay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface UserDTO {
@@ -32,7 +32,13 @@ export class App {
     fromEvent(document, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .pipe(scan(count => count + 1, 0))
-      .subscribe(count => console.log(`Clicked ${count} time${count !== 1 ? 's' : ''}!`)); 
+      .subscribe(count => console.log(`Clicked ${count} time${count !== 1 ? 's' : ''}!`));
+
+    of(1, 2, 3)
+      .pipe(takeUntilDestroyed(this.destroyRef),
+        map(x => x * 3),
+        delay(2000))
+        .subscribe(x => console.log('Current Value: ', x));
   }
 
   public noUsers() {
