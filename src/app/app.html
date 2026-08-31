@@ -6,23 +6,40 @@
   <h1>Hello, {{ username() }}!</h1>
 }
 
-<form [formGroup]="userForm">
-<label>Enter First Name:</label>
-<input type="text" formControlName="firstName">
+<form [formGroup]="userForm" (ngSubmit)="onUserFormSubmit()">
+  <label>Enter First Name:</label>
+  <input type="text" formControlName="firstName">
 
-<p>{{ userForm.get('firstName')?.value }}</p>
+  <p>{{ userForm.get('firstName')?.value }}</p>
 
-<label>Enter Last Name:</label>
-<input type="text" formControlName="lastName">
+  <label>Enter Last Name:</label>
+  <input type="text" formControlName="lastName">
 
-<p>{{ userForm.get('lastName')?.value }}</p>
+  <p>{{ userForm.get('lastName')?.value }}</p>
 
-<label>Enter Email:</label>
-<input type="text" formControlName="email">
+  <label>Enter Email:</label>
+  <input type="text" formControlName="email">
 
-<p>{{ userForm.get('email')?.value }}</p>
+  <p>{{ userForm.get('email')?.value }}</p>
 
-<button type="button" (click)="updateName()">Update Name!</button>
-<button type="button" (click)="resetUserForm()">Reset Name!</button>
+  <button type="button" (click)="updateName()">Update Name!</button>
+  <button type="button" (click)="resetUserForm()">Reset Name!</button>
+
+  <button type="submit">Submit!</button>
 
 </form>
+
+<div class="user-list">
+  <h2>Users</h2>
+  @if (noUsers()) {
+    <p>There are currently no users!</p>
+  }
+
+  @else {
+    <ul>
+      @for (user of users(); track user) {
+        <li>{{ user.firstName }} {{ user.lastName }} | Email: {{ user.email }}</li>
+      }
+    </ul>
+  }
+</div>

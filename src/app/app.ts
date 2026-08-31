@@ -1,6 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+interface UserDTO {
+  firstName: string | null | undefined;
+  lastName: string | null | undefined;
+  email: string | null | undefined;
+}
+
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule],
@@ -15,7 +21,12 @@ export class App {
     email: new FormControl(''),
   });
 
-  protected username = signal('');
+  protected username = signal<string>('');
+  protected users = signal<UserDTO[]>([]);
+
+  public noUsers() {
+    return this.users().length === 0;
+  }
 
   public updateName() {
     const nancy = {
@@ -31,5 +42,20 @@ export class App {
   public resetUserForm() {
     this.userForm.reset();
     this.username.set(``);
+  }
+
+  public onUserFormSubmit() {
+    const newUser: UserDTO = {
+      firstName: this.userForm.value.firstName,
+      lastName: this.userForm.value.lastName,
+      email: this.userForm.value.email,
+    };
+    
+    console.log(newUser);
+    this.users.update(users => [...users, newUser]);
+    this.username.set('');
+    this.userForm.reset();
+
+    console.log(this.users());
   }
 }
