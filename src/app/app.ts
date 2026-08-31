@@ -2,6 +2,7 @@ import { Component, signal, DestroyRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, fromEvent, scan, of, map, delay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from './services/users';
 
 interface UserDTO {
   firstName: string | null | undefined;
@@ -17,6 +18,7 @@ interface UserDTO {
 })
 
 export class App {
+  private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
 
   protected userForm = new FormGroup({
