@@ -1,14 +1,9 @@
-import { Component, signal, DestroyRef, inject } from '@angular/core';
+import { Component, signal, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Observable, fromEvent, scan, of, map, delay } from 'rxjs';
+import { fromEvent, scan, of, map, delay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { UserService } from './services/users';
-
-interface UserDTO {
-  firstName: string | null | undefined;
-  lastName: string | null | undefined;
-  email: string | null | undefined;
-}
+import { UserService } from './services/users.service';
+import { UserDTO } from './domains/user.dto';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +12,7 @@ interface UserDTO {
   styleUrl: './app.css'
 })
 
-export class App {
+export class App implements OnInit {
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
 
@@ -41,6 +36,18 @@ export class App {
         map(x => x * 3),
         delay(2000))
         .subscribe(x => console.log('Current Value: ', x));
+    
+    this.getUsers();
+  }
+
+  ngOnInit(): void {
+    this.getUsers();
+  }
+
+  public getUsers() {
+    this.userService.getUsers().subscribe(users => {
+      this.users.set(users);
+    });
   }
 
   public noUsers() {
